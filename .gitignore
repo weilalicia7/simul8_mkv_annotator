@@ -37,9 +37,10 @@ venv/
 ENV/
 env/
 
-# IDE
+# IDE and Editor Settings
 .vscode/
 .idea/
+.claude/
 *.swp
 *.swo
 *~
