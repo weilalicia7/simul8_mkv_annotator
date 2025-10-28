@@ -1,0 +1,82 @@
+# ML Processor Configuration File
+# Abbey Road Traffic Monitoring System
+
+# Video Input/Output Settings
+video:
+  input_path: "videos/abbey_road.mp4"  # Path to input video
+  output_path: "outputs/"              # Directory for output files
+  show_processing: false               # Display video during processing (slower)
+
+# YOLO Detection Settings
+detection:
+  model: "yolov8n.pt"                  # Model file (n=nano, s=small, m=medium)
+  confidence_threshold: 0.35           # Minimum confidence (0.0-1.0)
+  device: "cpu"                        # Device: "cpu" or "0" for GPU
+
+  # Detection classes (COCO dataset)
+  # 0=person, 2=car, 3=motorcycle, 5=bus, 7=truck
+  vehicle_classes: [2, 3, 5, 7]
+  pedestrian_class: 0
+
+# Object Tracking Settings (DeepSORT)
+tracking:
+  max_age: 30                          # Max frames to keep track after disappearance
+  n_init: 3                            # Frames needed to confirm track
+  max_iou_distance: 0.7                # Max IoU distance for matching
+
+# Arrival Detection Settings
+arrival_detection:
+  arrival_line_y: null                 # Y-coordinate of arrival line (null = auto middle)
+  crossing_zone_min: 300               # Minimum Y for crossing zone
+  crossing_zone_max: 500               # Maximum Y for crossing zone
+
+# Pedestrian Classification
+classification:
+  # Poser detection thresholds
+  poser_min_duration: 8.0              # Minimum time (seconds) to classify as Poser
+  poser_max_movement: 100              # Maximum movement variance for Poser
+
+  # Crosser detection thresholds
+  crosser_min_movement: 200            # Minimum movement for Crosser
+
+# Direction Classification
+direction:
+  method: "position_based"             # "position_based" or "optical_flow"
+  screen_split: 0.5                    # Left/right split point (0.0-1.0)
+
+# Export Settings
+export:
+  format: "csv"                        # "csv" or "xlsx"
+  include_timestamps: true             # Include timestamp in filename
+  round_decimals: 1                    # Decimal places for numeric values
+
+# Performance Settings
+performance:
+  frame_skip: 1                        # Process every Nth frame (1=all frames)
+  resize_width: null                   # Resize frame width (null=original)
+  batch_size: 1                        # Batch size for detection
+
+# Validation Settings
+validation:
+  time_tolerance: 1.0                  # Tolerance (seconds) for matching events
+  generate_plots: true                 # Generate visualization plots
+  plot_format: "png"                   # Plot format: "png", "jpg", "pdf"
+
+# Dashboard Settings
+dashboard:
+  port: 8501                           # Streamlit port
+  theme: "light"                       # "light" or "dark"
+  refresh_rate: 0.1                    # Seconds between updates
+  max_table_rows: 50                   # Max rows in data table
+
+# Logging
+logging:
+  level: "INFO"                        # "DEBUG", "INFO", "WARNING", "ERROR"
+  save_to_file: true                   # Save logs to file
+  log_file: "outputs/ml_processor.log" # Log file path
+
+# Experimental Features (use with caution)
+experimental:
+  use_pose_estimation: false           # Use MediaPipe for pose detection
+  multi_camera: false                  # Multi-camera support
+  real_time_mode: false                # Real-time processing mode

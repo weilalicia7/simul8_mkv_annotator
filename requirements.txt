@@ -1,0 +1,27 @@
+# ML Traffic Monitoring System - Python Requirements
+# Install with: pip install -r requirements.txt
+
+# Core ML packages
+ultralytics>=8.0.0         # YOLOv8 object detection
+opencv-python>=4.8.0       # Video processing
+torch>=2.0.0               # Deep learning framework (install CUDA version separately if using GPU)
+torchvision>=0.15.0        # Vision utilities
+
+# Tracking
+deep-sort-realtime>=1.3.0  # Multi-object tracking
+
+# Data processing
+pandas>=2.0.0              # Data manipulation
+numpy>=1.24.0              # Numerical operations
+
+# Optional: Dashboard
+streamlit>=1.20.0          # Interactive web dashboard
+
+# Optional: Additional utilities
+PyYAML>=6.0                # Configuration files
+openpyxl>=3.1.0            # Excel export
+plotly>=5.14.0             # Interactive visualizations
+mediapipe>=0.10.0          # Additional CV utilities
+
+# Note: For GPU support, install PyTorch with CUDA:
+# pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121

@@ -1,0 +1,1861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abbey Road Multi-User Video Annotator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #C8102E;
+            padding-bottom: 10px;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 450px;
+            gap: 20px;
+        }
+        
+        .video-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .controls-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        video {
+            width: 100%;
+            max-width: 900px;
+            border-radius: 4px;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        button {
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+            position: relative;
+        }
+        
+        button.active {
+            transform: scale(0.95);
+            box-shadow: inset 0 3px 7px rgba(0,0,0,0.3);
+            border-color: #C8102E;
+        }
+        
+        .vehicle-btn {
+            background-color: #484848;
+            color: white;
+        }
+        
+        .vehicle-btn:hover {
+            background-color: #333333;
+        }
+        
+        .vehicle-btn.active {
+            background-color: #C8102E;
+        }
+        
+        .ped-btn {
+            background-color: #C8102E;
+            color: white;
+        }
+        
+        .ped-btn:hover {
+            background-color: #A00E26;
+        }
+        
+        .ped-btn.active {
+            background-color: #7A0A1A;
+        }
+        
+        .action-btn {
+            background-color: #666666;
+            color: white;
+        }
+        
+        .action-btn:hover {
+            background-color: #484848;
+        }
+        
+        .export-btn {
+            background-color: #C8102E;
+            color: white;
+        }
+        
+        .export-btn:hover {
+            background-color: #A00E26;
+        }
+        
+        .delete-btn {
+            background-color: #999999;
+            color: white;
+        }
+        
+        .delete-btn:hover {
+            background-color: #777777;
+        }
+        
+        .delete-btn.delete-active {
+            background-color: #C8102E;
+        }
+        
+        .stats {
+            background: #F7F7F7;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            border: 1px solid #E0E0E0;
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            padding: 5px;
+            background: white;
+            border-radius: 3px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #C8102E;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        tr:hover {
+            background-color: #FFE5E5;
+        }
+        
+        .delete-row-btn {
+            background-color: #C8102E;
+            color: white;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .edit-row-btn {
+            background-color: #484848;
+            color: white;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        
+        .source-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .source-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .source-card:hover {
+            border-color: #C8102E;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(200, 16, 46, 0.1);
+        }
+        
+        .source-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .source-label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .url-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            font-size: 13px;
+            transition: all 0.2s;
+            margin-bottom: 10px;
+        }
+        
+        .url-input:focus {
+            outline: none;
+            border-color: #C8102E;
+            box-shadow: 0 0 0 2px rgba(200, 16, 46, 0.1);
+        }
+        
+        .source-btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        
+        .source-btn:hover {
+            background: #C8102E;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .playback-controls {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .speed-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .speed-btn {
+            background: white;
+            color: #333;
+            border: 2px solid #e9ecef;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .speed-btn:hover {
+            border-color: #C8102E;
+            color: #C8102E;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .speed-btn.active {
+            background: #C8102E;
+            color: white;
+            border-color: #C8102E;
+        }
+        
+        .time-display {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .time-divider {
+            margin: 0 10px;
+            color: #C8102E;
+        }
+        
+        .speed-control {
+            margin: 15px 0;
+            padding: 10px;
+            background: #F7F7F7;
+            border-radius: 4px;
+            border: 1px solid #E0E0E0;
+        }
+        
+        .keyboard-hint {
+            background: linear-gradient(135deg, #FFF5F5 0%, #FFEFEF 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #C8102E;
+            margin: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            padding: 10px;
+            background: #F7F7F7;
+            border-radius: 4px;
+            margin: 10px 0;
+            border: 1px solid #E0E0E0;
+        }
+        
+        #pedTimer {
+            color: #C8102E;
+            font-size: 18px;
+            margin-top: 10px;
+            padding: 10px;
+            background: #FFF5F5;
+            border-radius: 4px;
+            border: 1px solid #FFD0D0;
+        }
+        
+        .data-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .tab-btn {
+            padding: 8px 16px;
+            background: #F7F7F7;
+            border: 1px solid #E0E0E0;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .tab-btn:hover {
+            background: #E0E0E0;
+        }
+        
+        .tab-btn.active-tab {
+            background: #C8102E;
+            color: white;
+            border-color: #C8102E;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .key-indicator {
+            display: inline-block;
+            background: #333;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        .small-export-btn {
+            background-color: #C8102E;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            margin-left: 5px;
+            transition: all 0.2s;
+        }
+
+        .small-export-btn:hover {
+            background-color: #A00E26;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Bar Chart Styles */
+        .bar-chart-container {
+            display: flex;
+            height: 200px;
+            padding: 10px 0;
+        }
+
+        .chart-y-axis {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-right: 10px;
+            width: 40px;
+            border-right: 2px solid #333;
+        }
+
+        .y-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #666;
+            text-align: right;
+        }
+
+        .chart-area {
+            flex: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            border-bottom: 2px solid #333;
+            margin-left: 10px;
+        }
+
+        .grid-line {
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background: #E0E0E0;
+            left: 0;
+        }
+
+        .grid-line:nth-child(1) {
+            top: 0;
+        }
+
+        .grid-line:nth-child(2) {
+            top: 50%;
+        }
+
+        .grid-line:nth-child(3) {
+            bottom: 0;
+        }
+
+        .chart-bars {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 100%;
+            padding: 0 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chart-bar-wrapper {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            width: 22%;
+            height: 100%;
+            position: relative;
+        }
+
+        .bar-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 3px;
+            min-height: 20px;
+        }
+
+        .bar-chart-bar {
+            width: 100%;
+            min-height: 2px;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            transition: height 0.6s ease;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .bar-percent {
+            font-size: 11px;
+            color: white;
+            font-weight: 600;
+            padding: 6px 4px 2px 4px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .bar-eb {
+            background: linear-gradient(to top, #484848 0%, #666666 100%);
+        }
+
+        .bar-wb {
+            background: linear-gradient(to top, #484848 0%, #666666 100%);
+        }
+
+        .bar-crossers {
+            background: linear-gradient(to top, #C8102E 0%, #E01530 100%);
+        }
+
+        .bar-posers {
+            background: linear-gradient(to top, #C8102E 0%, #E01530 100%);
+        }
+
+        .bar-label {
+            margin-bottom: 5px;
+            text-align: center;
+            font-weight: 600;
+            color: #333;
+            font-size: 18px;
+        }
+
+        /* Help Section Styles */
+        .help-section {
+            background: #FFF9E6;
+            border: 2px solid #C8102E;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .help-toggle {
+            background: #C8102E;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .help-toggle:hover {
+            background: #A00E26;
+        }
+
+        .help-content {
+            display: none;
+            margin-top: 15px;
+            line-height: 1.6;
+        }
+
+        .help-content.active {
+            display: block;
+        }
+
+        .help-content h3 {
+            color: #C8102E;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .help-content h3:first-child {
+            margin-top: 0;
+        }
+
+        .help-content ul {
+            margin: 5px 0;
+            padding-left: 20px;
+        }
+
+        .help-content li {
+            margin: 3px 0;
+        }
+
+        .help-content strong {
+            color: #C8102E;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎬 Abbey Road Multi-User Video Annotator</h1>
+
+    <!-- Help Section -->
+    <div class="help-section">
+        <button class="help-toggle" onclick="toggleHelp()">
+            <span>📖 Quick Usage Guide - READ THIS FIRST!</span>
+            <span id="helpArrow">▼</span>
+        </button>
+        <div class="help-content" id="helpContent">
+            <h3>⚠️ IMPORTANT: Data Collection Rules</h3>
+            <ul>
+                <li><strong>COUNT ALL VEHICLES</strong> - Even when pedestrians are crossing!</li>
+                <li>Vehicles may be blocked, but they still arrived → <strong>COUNT THEM</strong></li>
+                <li>Your job: Record <strong>ARRIVALS</strong>, not successful passages</li>
+                <li>The simulation will analyze delays using your timestamps</li>
+            </ul>
+
+            <h3>📹 Recording Data</h3>
+            <ul>
+                <li><strong>Play the video while pressing buttons</strong> - Press AS events happen in real-time</li>
+                <li><strong>Q/O</strong> = EB Vehicle arrives</li>
+                <li><strong>W/P</strong> = WB Vehicle arrives</li>
+                <li><strong>A/K</strong> = Pedestrian starts crossing</li>
+                <li><strong>S</strong> = Crosser finishes (just crossing)</li>
+                <li><strong>L</strong> = Poser finishes (stopped for photos)</li>
+            </ul>
+
+            <h3>💾 Exporting Data</h3>
+            <ul>
+                <li>Click <strong>📄 CSV</strong> or <strong>📊 Excel</strong> next to any table</li>
+                <li><strong>Ignore any system security warnings</strong> - open the file anyway</li>
+                <li><strong>Save immediately</strong> to your local drive</li>
+                <li>Files export in chronological order (oldest → newest)</li>
+            </ul>
+
+            <h3>✏️ Edit & Delete Functions</h3>
+            <ul>
+                <li><strong>Edit Button:</strong> Click to modify timestamps or entity types</li>
+                <li><strong>Delete Button:</strong> Click to remove incorrect entries</li>
+                <li><strong>Undo Last (↩️):</strong> Quick removal of most recent entry</li>
+                <li><strong>Delete Mode:</strong> Toggle ON to delete multiple entries quickly</li>
+            </ul>
+
+            <h3>🎯 Key Point</h3>
+            <p style="font-size: 16px; font-weight: bold; color: #C8102E;">
+                Play video → Press buttons → Export → Save locally → Done!
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="video-section">
+            <h2>Video Player</h2>
+            
+            <!-- Video Source Selection -->
+            <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); position: relative; overflow: hidden;">
+                <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #C8102E;"></div>
+                <h3 style="margin-top: 0; color: #2c3e50; font-weight: 600; font-size: 18px;">Select Video Source</h3>
+                
+                <div class="source-options">
+                    <div class="source-card">
+                        <div class="source-icon">📁</div>
+                        <label class="source-label">Local File</label>
+                        <input type="file" id="fileInput" accept=".mkv,.mp4,.webm,.avi,.mov" onchange="loadVideo(event)" class="file-input">
+                        <button class="source-btn" onclick="document.getElementById('fileInput').click()">Choose File</button>
+                    </div>
+                    
+                    <div class="source-card">
+                        <div class="source-icon">▶️</div>
+                        <label class="source-label">YouTube URL</label>
+                        <input type="text" id="youtubeUrl" placeholder="Paste YouTube link" class="url-input">
+                        <button class="source-btn" onclick="loadYouTube()">Load Video</button>
+                    </div>
+                    
+                    <div class="source-card">
+                        <div class="source-icon">🔗</div>
+                        <label class="source-label">Direct URL</label>
+                        <input type="text" id="directUrl" placeholder="Paste video URL" class="url-input">
+                        <button class="source-btn" onclick="loadDirectUrl()">Load Video</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video Container -->
+            <div id="videoContainer" style="position: relative; background: #000; border-radius: 8px; overflow: hidden;">
+                <video id="video" controls style="width: 100%; display: none; border-radius: 8px;">
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div id="youtubePlayer" style="display: none; border-radius: 8px;"></div>
+            </div>
+            
+            <div class="playback-controls">
+                <div class="speed-buttons">
+                    <button class="speed-btn" onclick="setSpeed(0.25)" data-speed="0.25">0.25×</button>
+                    <button class="speed-btn" onclick="setSpeed(0.5)" data-speed="0.5">0.5×</button>
+                    <button class="speed-btn" onclick="setSpeed(0.75)" data-speed="0.75">0.75×</button>
+                    <button class="speed-btn active" onclick="setSpeed(1)" data-speed="1">1×</button>
+                </div>
+                <div class="time-display">
+                    <span id="currentTime">00:00:00</span>
+                    <div class="time-divider">/</div>
+                    <span id="duration">00:00:00</span>
+                </div>
+            </div>
+
+            <!-- Total Entries Section -->
+            <div style="background: #fff; padding: 15px; border-radius: 6px; margin-top: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h3 style="margin: 0 0 10px 0; color: #333; font-size: 16px; text-align: center;">Total Entries</h3>
+                <div style="display: flex; justify-content: center; align-items: center; font-size: 48px; font-weight: bold; color: #C8102E;">
+                    <span id="totalEntries">0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls-section">
+            <h2>Multi-User Quick Entry</h2>
+            
+            <div class="keyboard-hint">
+                <strong>⌨️ Keyboard Layout for Multiple Users:</strong><br><br>
+                <b>Left Side (User 1):</b><br>
+                Q = Vehicle EB | W = Vehicle WB<br>
+                A = Ped Start | S = Crosser End<br><br>
+                
+                <b>Right Side (User 2):</b><br>
+                O = Vehicle EB | P = Vehicle WB<br>
+                K = Ped Start | L = Poser End<br><br>
+                
+                <b>Shared:</b> Space = Play/Pause | ← → = Skip ±5s
+            </div>
+            
+            <div class="button-grid">
+                <button id="btn-veb-1" class="vehicle-btn" onclick="markVehicle('EB')">
+                    🚗 Vehicle EB <span class="key-indicator">Q/O</span>
+                </button>
+                <button id="btn-vwb-1" class="vehicle-btn" onclick="markVehicle('WB')">
+                    🚙 Vehicle WB <span class="key-indicator">W/P</span>
+                </button>
+                <button id="btn-ped-start" class="ped-btn" onclick="markPedStart()">
+                    🚶 Ped Start <span class="key-indicator">A/K</span>
+                </button>
+                <button id="btn-crosser" class="ped-btn" onclick="markPedEnd('Crosser')">
+                    ⏱️ Crosser End <span class="key-indicator">S</span>
+                </button>
+                <button id="btn-poser" class="ped-btn" onclick="markPedEnd('Poser')">
+                    📸 Poser End <span class="key-indicator">L</span>
+                </button>
+                <button class="action-btn" onclick="undoLast()">
+                    ↩️ Undo Last
+                </button>
+                <button class="delete-btn" onclick="toggleDeleteMode()" style="grid-column: span 2;">
+                    🗑️ Delete Mode: <span id="deleteModeStatus">OFF</span>
+                </button>
+            </div>
+            
+            <div id="pedTimer"></div>
+
+            <!-- Entity Comparison Bar Chart -->
+            <div style="background: #fff; padding: 15px; border-radius: 6px; margin-top: 20px;">
+                <h3 style="margin: 0 0 10px 0; color: #333; text-align: center; font-size: 16px;">Entity Comparison</h3>
+
+                <!-- Bar Chart Container -->
+                <div class="bar-chart-container">
+                    <!-- Y-axis labels -->
+                    <div class="chart-y-axis">
+                        <div class="y-label" id="yMax">10</div>
+                        <div class="y-label" id="yMid">5</div>
+                        <div class="y-label" id="yMin">0</div>
+                    </div>
+
+                    <!-- Chart area with grid -->
+                    <div class="chart-area">
+                        <!-- Grid lines -->
+                        <div class="grid-line"></div>
+                        <div class="grid-line"></div>
+                        <div class="grid-line"></div>
+
+                        <!-- Bars -->
+                        <div class="chart-bars">
+                            <!-- EB Vehicles Bar -->
+                            <div class="chart-bar-wrapper">
+                                <div class="bar-value" id="valueVehicleEB">0</div>
+                                <div class="bar-chart-bar bar-eb" id="chartBarEB" style="height: 0%;">
+                                    <div class="bar-percent" id="chartPercentEB">0%</div>
+                                </div>
+                                <div class="bar-label">
+                                    <div>🚗</div>
+                                    <div style="font-size: 11px;">EB</div>
+                                </div>
+                            </div>
+
+                            <!-- WB Vehicles Bar -->
+                            <div class="chart-bar-wrapper">
+                                <div class="bar-value" id="valueVehicleWB">0</div>
+                                <div class="bar-chart-bar bar-wb" id="chartBarWB" style="height: 0%;">
+                                    <div class="bar-percent" id="chartPercentWB">0%</div>
+                                </div>
+                                <div class="bar-label">
+                                    <div>🚙</div>
+                                    <div style="font-size: 11px;">WB</div>
+                                </div>
+                            </div>
+
+                            <!-- Crossers Bar -->
+                            <div class="chart-bar-wrapper">
+                                <div class="bar-value" id="valueCrossers">0</div>
+                                <div class="bar-chart-bar bar-crossers" id="chartBarCrossers" style="height: 0%;">
+                                    <div class="bar-percent" id="chartPercentCrossers">0%</div>
+                                </div>
+                                <div class="bar-label">
+                                    <div>🚶</div>
+                                    <div style="font-size: 11px;">Crossers</div>
+                                </div>
+                            </div>
+
+                            <!-- Posers Bar -->
+                            <div class="chart-bar-wrapper">
+                                <div class="bar-value" id="valuePosers">0</div>
+                                <div class="bar-chart-bar bar-posers" id="chartBarPosers" style="height: 0%;">
+                                    <div class="bar-percent" id="chartPercentPosers">0%</div>
+                                </div>
+                                <div class="bar-label">
+                                    <div>📸</div>
+                                    <div style="font-size: 11px;">Posers</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 20px;">
+        <h2>Data Tables</h2>
+        
+        <div class="data-tabs">
+            <button class="tab-btn active-tab" onclick="showTab('all')">All Data</button>
+            <button class="tab-btn" onclick="showTab('eb')">EB Vehicles</button>
+            <button class="tab-btn" onclick="showTab('wb')">WB Vehicles</button>
+            <button class="tab-btn" onclick="showTab('crossers')">Crossers</button>
+            <button class="tab-btn" onclick="showTab('posers')">Posers</button>
+        </div>
+        
+        <div id="all-tab" class="tab-content active" style="max-height: 400px; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h3 style="margin: 0;">All Data</h3>
+                <div>
+                    <button class="small-export-btn" onclick="exportSingleTable('all', 'csv')">📄 CSV</button>
+                    <button class="small-export-btn" onclick="exportSingleTable('all', 'excel')">📊 Excel</button>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Time (s)</th>
+                        <th>Entity</th>
+                        <th>Type/Dir</th>
+                        <th>Inter-Arrival (s)</th>
+                        <th>Service Time (s)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="allDataBody"></tbody>
+            </table>
+        </div>
+        
+        <div id="eb-tab" class="tab-content" style="max-height: 400px; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h3 style="margin: 0;">EB Vehicles - Eastbound vehicles only</h3>
+                <div>
+                    <button class="small-export-btn" onclick="exportSingleTable('eb', 'csv')">📄 CSV</button>
+                    <button class="small-export-btn" onclick="exportSingleTable('eb', 'excel')">📊 Excel</button>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Time (s)</th>
+                        <th>Inter-Arrival (s)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="ebDataBody"></tbody>
+            </table>
+        </div>
+        
+        <div id="wb-tab" class="tab-content" style="max-height: 400px; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h3 style="margin: 0;">WB Vehicles - Westbound vehicles only</h3>
+                <div>
+                    <button class="small-export-btn" onclick="exportSingleTable('wb', 'csv')">📄 CSV</button>
+                    <button class="small-export-btn" onclick="exportSingleTable('wb', 'excel')">📊 Excel</button>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Time (s)</th>
+                        <th>Inter-Arrival (s)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="wbDataBody"></tbody>
+            </table>
+        </div>
+        
+        <div id="crossers-tab" class="tab-content" style="max-height: 400px; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h3 style="margin: 0;">Crossers - Pedestrians who just cross (not Posers)</h3>
+                <div>
+                    <button class="small-export-btn" onclick="exportSingleTable('crossers', 'csv')">📄 CSV</button>
+                    <button class="small-export-btn" onclick="exportSingleTable('crossers', 'excel')">📊 Excel</button>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Time (s)</th>
+                        <th>Service Time (s)</th>
+                        <th>Inter-Arrival (s)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="crossersDataBody"></tbody>
+            </table>
+        </div>
+        
+        <div id="posers-tab" class="tab-content" style="max-height: 400px; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h3 style="margin: 0;">Posers - Pedestrians who stop for photos</h3>
+                <div>
+                    <button class="small-export-btn" onclick="exportSingleTable('posers', 'csv')">📄 CSV</button>
+                    <button class="small-export-btn" onclick="exportSingleTable('posers', 'excel')">📊 Excel</button>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Time (s)</th>
+                        <th>Service Time (s)</th>
+                        <th>Inter-Arrival (s)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="posersDataBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Add YouTube API script
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        
+        // YouTube player variable
+        var ytPlayer;
+        var isYouTube = false;
+        
+        // Data storage
+        let allData = [];
+        let dataCounter = 0;
+        let lastVehicleTime = {};
+        let lastPedTime = 0;
+        let pedStartTime = null;
+        let pedTimerInterval = null;
+        let deleteMode = false;
+        const video = document.getElementById('video');
+        
+        // Statistics
+        let stats = {
+            vehicleEB: 0,
+            vehicleWB: 0,
+            crossers: 0,
+            posers: 0
+        };
+        
+        // YouTube API Ready
+        function onYouTubeIframeAPIReady() {
+            console.log('YouTube API Ready');
+        }
+        
+        // Load YouTube video
+        function loadYouTube() {
+            const url = document.getElementById('youtubeUrl').value;
+            if (!url) {
+                alert('Please enter a YouTube URL');
+                return;
+            }
+            
+            const videoId = extractYouTubeId(url);
+            if (!videoId) {
+                alert('Invalid YouTube URL');
+                return;
+            }
+            
+            document.getElementById('video').style.display = 'none';
+            document.getElementById('youtubePlayer').style.display = 'block';
+            document.getElementById('youtubePlayer').innerHTML = '';
+            
+            ytPlayer = new YT.Player('youtubePlayer', {
+                height: '450',
+                width: '800',
+                videoId: videoId,
+                playerVars: {
+                    'controls': 1,
+                    'enablejsapi': 1,
+                    'modestbranding': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+            
+            isYouTube = true;
+        }
+        
+        function extractYouTubeId(url) {
+            const regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+            const match = url.match(regex);
+            return match ? match[1] : null;
+        }
+        
+        function onPlayerReady(event) {
+            console.log('YouTube player ready');
+            updateYouTubeTimer();
+        }
+        
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING) {
+                updateYouTubeTimer();
+            }
+        }
+        
+        function updateYouTubeTimer() {
+            if (isYouTube && ytPlayer && ytPlayer.getCurrentTime) {
+                setInterval(() => {
+                    if (ytPlayer && ytPlayer.getCurrentTime) {
+                        document.getElementById('currentTime').textContent = 
+                            formatTime(ytPlayer.getCurrentTime());
+                        document.getElementById('duration').textContent = 
+                            formatTime(ytPlayer.getDuration());
+                    }
+                }, 1000);
+            }
+        }
+        
+        function loadDirectUrl() {
+            const url = document.getElementById('directUrl').value;
+            if (!url) {
+                alert('Please enter a video URL');
+                return;
+            }
+            
+            document.getElementById('video').style.display = 'block';
+            document.getElementById('youtubePlayer').style.display = 'none';
+            
+            video.src = url;
+            video.load();
+            isYouTube = false;
+        }
+        
+        function loadVideo(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('video').style.display = 'block';
+                document.getElementById('youtubePlayer').style.display = 'none';
+                
+                const url = URL.createObjectURL(file);
+                video.src = url;
+                video.load();
+                isYouTube = false;
+            }
+        }
+        
+        function getCurrentVideoTime() {
+            if (isYouTube && ytPlayer && ytPlayer.getCurrentTime) {
+                return ytPlayer.getCurrentTime();
+            } else {
+                return video.currentTime;
+            }
+        }
+        
+        function setSpeed(speed) {
+            // Update button active states
+            document.querySelectorAll('.speed-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-speed') === speed.toString()) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            if (isYouTube && ytPlayer) {
+                ytPlayer.setPlaybackRate(speed);
+            } else {
+                video.playbackRate = speed;
+            }
+        }
+        
+        video.addEventListener('timeupdate', () => {
+            if (!isYouTube) {
+                document.getElementById('currentTime').textContent = formatTime(video.currentTime);
+                document.getElementById('duration').textContent = formatTime(video.duration);
+            }
+        });
+        
+        // Enhanced keyboard shortcuts for multiple users
+        document.addEventListener('keydown', (e) => {
+            const key = e.key.toLowerCase();
+            
+            // Prevent default for space
+            if (key === ' ') {
+                e.preventDefault();
+            }
+            
+            switch(key) {
+                // Left side user controls
+                case 'q': markVehicle('EB'); break;
+                case 'w': markVehicle('WB'); break;
+                case 'a': markPedStart(); break;
+                case 's': markPedEnd('Crosser'); break;
+                
+                // Right side user controls
+                case 'o': markVehicle('EB'); break;
+                case 'p': markVehicle('WB'); break;
+                case 'k': markPedStart(); break;
+                case 'l': markPedEnd('Poser'); break;
+                
+                // Shared controls
+                case ' ': 
+                    if (isYouTube && ytPlayer) {
+                        if (ytPlayer.getPlayerState() === YT.PlayerState.PLAYING) {
+                            ytPlayer.pauseVideo();
+                        } else {
+                            ytPlayer.playVideo();
+                        }
+                    } else {
+                        video.paused ? video.play() : video.pause();
+                    }
+                    break;
+                case 'arrowleft':
+                    if (isYouTube && ytPlayer) {
+                        ytPlayer.seekTo(ytPlayer.getCurrentTime() - 5);
+                    } else {
+                        video.currentTime -= 5;
+                    }
+                    break;
+                case 'arrowright':
+                    if (isYouTube && ytPlayer) {
+                        ytPlayer.seekTo(ytPlayer.getCurrentTime() + 5);
+                    } else {
+                        video.currentTime += 5;
+                    }
+                    break;
+            }
+        });
+        
+        function markVehicle(direction) {
+            const currentTime = getCurrentVideoTime();
+            const key = `vehicle${direction}`;
+
+            let interArrival = '0.0';
+            if (lastVehicleTime[key]) {
+                interArrival = (currentTime - lastVehicleTime[key]).toFixed(1);
+            }
+            lastVehicleTime[key] = currentTime;
+
+            const entry = {
+                id: ++dataCounter,
+                timestamp: currentTime.toFixed(1),
+                entity: direction === 'EB' ? 'EB Vehicles' : 'WB Vehicles',
+                type: direction,
+                interArrival: interArrival,
+                serviceTime: '-'
+            };
+
+            allData.push(entry);
+
+            if (direction === 'EB') {
+                stats.vehicleEB++;
+                flashButton('btn-veb-1');
+            } else {
+                stats.vehicleWB++;
+                flashButton('btn-vwb-1');
+            }
+
+            updateDisplay();
+        }
+        
+        function markPedStart() {
+            if (pedStartTime !== null) {
+                alert('Pedestrian timing already in progress! End it first.');
+                return;
+            }
+            
+            pedStartTime = getCurrentVideoTime();
+            
+            // Activate button
+            document.getElementById('btn-ped-start').classList.add('active');
+            
+            // Start visual timer
+            let startTime = Date.now();
+            pedTimerInterval = setInterval(() => {
+                const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+                document.getElementById('pedTimer').innerHTML = 
+                    `⏱️ Pedestrian Timer Running: ${elapsed}s<br>Press S for Crosser or L for Poser`;
+            }, 100);
+        }
+        
+        function markPedEnd(pedType) {
+            if (pedStartTime === null) {
+                alert('Click "Ped Start" first!');
+                return;
+            }
+            
+            clearInterval(pedTimerInterval);
+            document.getElementById('pedTimer').innerHTML = '';
+            document.getElementById('btn-ped-start').classList.remove('active');
+            
+            const endTime = getCurrentVideoTime();
+            const serviceTime = (endTime - pedStartTime).toFixed(1);
+
+            let interArrival = '0.0';
+            if (lastPedTime > 0) {
+                interArrival = (pedStartTime - lastPedTime).toFixed(1);
+            }
+
+            const entry = {
+                id: ++dataCounter,
+                timestamp: pedStartTime.toFixed(1),
+                entity: pedType === 'Crosser' ? 'Crossers' : 'Posers',
+                type: pedType,
+                interArrival: interArrival,
+                serviceTime: serviceTime
+            };
+            
+            allData.push(entry);
+            
+            if (pedType === 'Crosser') {
+                stats.crossers++;
+                flashButton('btn-crosser');
+            } else {
+                stats.posers++;
+                flashButton('btn-poser');
+            }
+            
+            lastPedTime = pedStartTime;
+            pedStartTime = null;
+            
+            updateDisplay();
+        }
+        
+        function undoLast() {
+            if (allData.length > 0) {
+                const removed = allData.pop();
+                dataCounter--;
+
+                // Update stats
+                if (removed.entity === 'EB Vehicles') {
+                    stats.vehicleEB--;
+                } else if (removed.entity === 'WB Vehicles') {
+                    stats.vehicleWB--;
+                } else if (removed.entity === 'Crossers') {
+                    stats.crossers--;
+                } else if (removed.entity === 'Posers') {
+                    stats.posers--;
+                }
+
+                updateDisplay();
+            }
+        }
+        
+        function toggleDeleteMode() {
+            deleteMode = !deleteMode;
+            document.getElementById('deleteModeStatus').textContent = deleteMode ? 'ON' : 'OFF';
+            const btn = document.querySelector('.delete-btn');
+            if (deleteMode) {
+                btn.classList.add('delete-active');
+            } else {
+                btn.classList.remove('delete-active');
+            }
+        }
+        
+        function deleteEntry(id) {
+            const index = allData.findIndex(entry => entry.id === id);
+            if (index !== -1) {
+                const removed = allData[index];
+                allData.splice(index, 1);
+
+                // Update stats
+                if (removed.entity === 'EB Vehicles') {
+                    stats.vehicleEB--;
+                } else if (removed.entity === 'WB Vehicles') {
+                    stats.vehicleWB--;
+                } else if (removed.entity === 'Crossers') {
+                    stats.crossers--;
+                } else if (removed.entity === 'Posers') {
+                    stats.posers--;
+                }
+
+                updateDisplay();
+            }
+        }
+        
+        function editEntry(id) {
+            const entry = allData.find(e => e.id === id);
+            if (entry) {
+                const newTime = prompt('Edit timestamp (seconds):', entry.timestamp);
+                if (newTime !== null && !isNaN(newTime)) {
+                    entry.timestamp = parseFloat(newTime).toFixed(1);
+                    updateDisplay();
+                }
+            }
+        }
+        
+        function updateDisplay() {
+            const total = allData.length;
+            document.getElementById('totalEntries').textContent = total;
+
+            // Find max value for scaling Y-axis
+            const maxValue = Math.max(stats.vehicleEB, stats.vehicleWB, stats.crossers, stats.posers, 1);
+            const yMax = Math.ceil(maxValue / 10) * 10 || 10; // Round up to nearest 10
+            const yMid = Math.floor(yMax / 2);
+
+            // Update Y-axis labels
+            document.getElementById('yMax').textContent = yMax;
+            document.getElementById('yMid').textContent = yMid;
+            document.getElementById('yMin').textContent = 0;
+
+            // Update bar values and heights
+            if (total > 0) {
+                // EB Vehicles
+                const ebPercent = Math.round((stats.vehicleEB / total) * 100);
+                const ebHeight = (stats.vehicleEB / yMax) * 100;
+                document.getElementById('valueVehicleEB').textContent = stats.vehicleEB;
+                document.getElementById('chartBarEB').style.height = `${ebHeight}%`;
+                document.getElementById('chartPercentEB').textContent = `${ebPercent}%`;
+
+                // WB Vehicles
+                const wbPercent = Math.round((stats.vehicleWB / total) * 100);
+                const wbHeight = (stats.vehicleWB / yMax) * 100;
+                document.getElementById('valueVehicleWB').textContent = stats.vehicleWB;
+                document.getElementById('chartBarWB').style.height = `${wbHeight}%`;
+                document.getElementById('chartPercentWB').textContent = `${wbPercent}%`;
+
+                // Crossers
+                const crossersPercent = Math.round((stats.crossers / total) * 100);
+                const crossersHeight = (stats.crossers / yMax) * 100;
+                document.getElementById('valueCrossers').textContent = stats.crossers;
+                document.getElementById('chartBarCrossers').style.height = `${crossersHeight}%`;
+                document.getElementById('chartPercentCrossers').textContent = `${crossersPercent}%`;
+
+                // Posers
+                const posersPercent = Math.round((stats.posers / total) * 100);
+                const posersHeight = (stats.posers / yMax) * 100;
+                document.getElementById('valuePosers').textContent = stats.posers;
+                document.getElementById('chartBarPosers').style.height = `${posersHeight}%`;
+                document.getElementById('chartPercentPosers').textContent = `${posersPercent}%`;
+            } else {
+                // Reset when no data
+                document.getElementById('valueVehicleEB').textContent = '0';
+                document.getElementById('chartBarEB').style.height = '0%';
+                document.getElementById('chartPercentEB').textContent = '0%';
+
+                document.getElementById('valueVehicleWB').textContent = '0';
+                document.getElementById('chartBarWB').style.height = '0%';
+                document.getElementById('chartPercentWB').textContent = '0%';
+
+                document.getElementById('valueCrossers').textContent = '0';
+                document.getElementById('chartBarCrossers').style.height = '0%';
+                document.getElementById('chartPercentCrossers').textContent = '0%';
+
+                document.getElementById('valuePosers').textContent = '0';
+                document.getElementById('chartBarPosers').style.height = '0%';
+                document.getElementById('chartPercentPosers').textContent = '0%';
+            }
+
+            // Update all tables
+            updateAllDataTable();
+            updateFilteredTables();
+        }
+        
+        function updateAllDataTable() {
+            const tbody = document.getElementById('allDataBody');
+            tbody.innerHTML = '';
+
+            allData.slice().reverse().forEach(entry => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${entry.id}</td>
+                    <td>${entry.timestamp}</td>
+                    <td>${entry.entity}</td>
+                    <td>${entry.type}</td>
+                    <td>${entry.interArrival}</td>
+                    <td>${entry.serviceTime}</td>
+                    <td>
+                        <button class="edit-row-btn" onclick="editEntry(${entry.id})">Edit</button>
+                        <button class="delete-row-btn" onclick="deleteEntry(${entry.id})">Delete</button>
+                    </td>
+                `;
+            });
+        }
+        
+        function updateFilteredTables() {
+            // EB Vehicles
+            const ebBody = document.getElementById('ebDataBody');
+            ebBody.innerHTML = '';
+            allData.filter(e => e.entity === 'EB Vehicles').reverse().forEach(entry => {
+                const row = ebBody.insertRow();
+                row.innerHTML = `
+                    <td>${entry.id}</td>
+                    <td>${entry.timestamp}</td>
+                    <td>${entry.interArrival}</td>
+                    <td>
+                        <button class="edit-row-btn" onclick="editEntry(${entry.id})">Edit</button>
+                        <button class="delete-row-btn" onclick="deleteEntry(${entry.id})">Delete</button>
+                    </td>
+                `;
+            });
+
+            // WB Vehicles
+            const wbBody = document.getElementById('wbDataBody');
+            wbBody.innerHTML = '';
+            allData.filter(e => e.entity === 'WB Vehicles').reverse().forEach(entry => {
+                const row = wbBody.insertRow();
+                row.innerHTML = `
+                    <td>${entry.id}</td>
+                    <td>${entry.timestamp}</td>
+                    <td>${entry.interArrival}</td>
+                    <td>
+                        <button class="edit-row-btn" onclick="editEntry(${entry.id})">Edit</button>
+                        <button class="delete-row-btn" onclick="deleteEntry(${entry.id})">Delete</button>
+                    </td>
+                `;
+            });
+
+            // Crossers only
+            const crossersBody = document.getElementById('crossersDataBody');
+            crossersBody.innerHTML = '';
+            allData.filter(e => e.entity === 'Crossers').reverse().forEach(entry => {
+                const row = crossersBody.insertRow();
+                row.innerHTML = `
+                    <td>${entry.id}</td>
+                    <td>${entry.timestamp}</td>
+                    <td>${entry.serviceTime}</td>
+                    <td>${entry.interArrival}</td>
+                    <td>
+                        <button class="edit-row-btn" onclick="editEntry(${entry.id})">Edit</button>
+                        <button class="delete-row-btn" onclick="deleteEntry(${entry.id})">Delete</button>
+                    </td>
+                `;
+            });
+
+            // Posers only
+            const posersBody = document.getElementById('posersDataBody');
+            posersBody.innerHTML = '';
+            allData.filter(e => e.entity === 'Posers').reverse().forEach(entry => {
+                const row = posersBody.insertRow();
+                row.innerHTML = `
+                    <td>${entry.id}</td>
+                    <td>${entry.timestamp}</td>
+                    <td>${entry.serviceTime}</td>
+                    <td>${entry.interArrival}</td>
+                    <td>
+                        <button class="edit-row-btn" onclick="editEntry(${entry.id})">Edit</button>
+                        <button class="delete-row-btn" onclick="deleteEntry(${entry.id})">Delete</button>
+                    </td>
+                `;
+            });
+        }
+        
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active-tab');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active-tab');
+        }
+        
+        function flashButton(buttonId) {
+            const button = document.getElementById(buttonId);
+            if (button) {
+                button.classList.add('active');
+                setTimeout(() => {
+                    button.classList.remove('active');
+                }, 200);
+            }
+        }
+        
+        function showExportOptions() {
+            const format = confirm('Export as CSV files (recommended) or Excel? Click OK for CSV, Cancel for Excel.');
+            if (format) {
+                exportSeparateFiles();
+            } else {
+                exportAsExcel();
+            }
+        }
+        
+        function exportSeparateFiles() {
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+            let filesExported = [];
+            
+            // 1. Export ALL DATA (exactly as shown in All Data tab)
+            if (allData.length > 0) {
+                let csv = 'ID,Time (s),Entity,Type/Dir,Inter-Arrival (s),Service Time (s)\n';
+                allData.forEach(row => {
+                    csv += `${row.id},${row.timestamp},"${row.entity}",${row.type},${row.interArrival || '0.0'},${row.serviceTime || '-'}\n`;
+                });
+                downloadCSV(csv, `abbey_road_ALL_DATA_${timestamp}`);
+                filesExported.push('All Data');
+            }
+            
+            // 2. Export EB Vehicles (exactly as shown in EB Vehicles tab)
+            const ebData = allData.filter(e => e.entity === 'EB Vehicles');
+            if (ebData.length > 0) {
+                let csv = 'ID,Time (s),Inter-Arrival (s)\n';
+                ebData.forEach(row => {
+                    csv += `${row.id},${row.timestamp},${row.interArrival || '0.0'}\n`;
+                });
+                downloadCSV(csv, `abbey_road_EB_Vehicles_${timestamp}`);
+                filesExported.push('EB Vehicles');
+            }
+            
+            // 3. Export WB Vehicles (exactly as shown in WB Vehicles tab)
+            const wbData = allData.filter(e => e.entity === 'WB Vehicles');
+            if (wbData.length > 0) {
+                let csv = 'ID,Time (s),Inter-Arrival (s)\n';
+                wbData.forEach(row => {
+                    csv += `${row.id},${row.timestamp},${row.interArrival || '0.0'}\n`;
+                });
+                downloadCSV(csv, `abbey_road_WB_Vehicles_${timestamp}`);
+                filesExported.push('WB Vehicles');
+            }
+            
+            // 4. Export Crossers (exactly as shown in Crossers tab)
+            const crosserData = allData.filter(e => e.entity === 'Crossers');
+            if (crosserData.length > 0) {
+                let csv = 'ID,Time (s),Service Time (s),Inter-Arrival (s)\n';
+                crosserData.forEach(row => {
+                    csv += `${row.id},${row.timestamp},${row.serviceTime || '0.0'},${row.interArrival || '0.0'}\n`;
+                });
+                downloadCSV(csv, `abbey_road_Crossers_${timestamp}`);
+                filesExported.push('Crossers');
+            }
+            
+            // 5. Export Posers (exactly as shown in Posers tab)
+            const poserData = allData.filter(e => e.entity === 'Posers');
+            if (poserData.length > 0) {
+                let csv = 'ID,Time (s),Service Time (s),Inter-Arrival (s)\n';
+                poserData.forEach(row => {
+                    csv += `${row.id},${row.timestamp},${row.serviceTime || '0.0'},${row.interArrival || '0.0'}\n`;
+                });
+                downloadCSV(csv, `abbey_road_Posers_${timestamp}`);
+                filesExported.push('Posers');
+            }
+            
+            if (filesExported.length > 0) {
+                alert(`Exported ${filesExported.length} CSV files:\n${filesExported.join(', ')}`);
+            } else {
+                alert('No data to export!');
+            }
+        }
+        
+        function downloadCSV(csv, filename) {
+            const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+            const link = document.createElement('a');
+            
+            if (navigator.msSaveBlob) { // IE 10+
+                navigator.msSaveBlob(blob, filename + '.csv');
+            } else {
+                const url = URL.createObjectURL(blob);
+                link.href = url;
+                link.download = filename + '.csv';
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                setTimeout(() => {
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                }, 100);
+            }
+        }
+        
+        async function exportAsExcel() {
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+            let filesExported = [];
+
+            // Helper function to delay between downloads
+            const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+            // 1. Export ALL DATA table (exactly as shown in All Data tab)
+            if (allData.length > 0) {
+                let htmlTable = '<table border="1">';
+                htmlTable += '<tr style="background-color:#C8102E;color:white;"><th>ID</th><th>Time (s)</th><th>Entity</th><th>Type/Dir</th><th>Inter-Arrival (s)</th><th>Service Time (s)</th></tr>';
+                allData.forEach(row => {
+                    htmlTable += `<tr><td>${row.id}</td><td>${row.timestamp}</td><td>${row.entity}</td><td>${row.type}</td><td>${row.interArrival || '0.0'}</td><td>${row.serviceTime || '-'}</td></tr>`;
+                });
+                htmlTable += '</table>';
+                downloadExcel(htmlTable, `abbey_road_ALL_DATA_${timestamp}`);
+                filesExported.push('All Data');
+                await delay(300);
+            }
+
+            // 2. Export EB Vehicles table (exactly as shown in EB Vehicles tab)
+            const ebData = allData.filter(e => e.entity === 'EB Vehicles');
+            if (ebData.length > 0) {
+                let htmlTable = '<table border="1">';
+                htmlTable += '<tr style="background-color:#C8102E;color:white;"><th>ID</th><th>Time (s)</th><th>Entity</th><th>Inter-Arrival (s)</th></tr>';
+                ebData.forEach(row => {
+                    htmlTable += `<tr><td>${row.id}</td><td>${row.timestamp}</td><td>${row.entity}</td><td>${row.interArrival || '0.0'}</td></tr>`;
+                });
+                htmlTable += '</table>';
+                downloadExcel(htmlTable, `abbey_road_EB_Vehicles_${timestamp}`);
+                filesExported.push('EB Vehicles');
+                await delay(300);
+            }
+
+            // 3. Export WB Vehicles table (exactly as shown in WB Vehicles tab)
+            const wbData = allData.filter(e => e.entity === 'WB Vehicles');
+            if (wbData.length > 0) {
+                let htmlTable = '<table border="1">';
+                htmlTable += '<tr style="background-color:#C8102E;color:white;"><th>ID</th><th>Time (s)</th><th>Entity</th><th>Inter-Arrival (s)</th></tr>';
+                wbData.forEach(row => {
+                    htmlTable += `<tr><td>${row.id}</td><td>${row.timestamp}</td><td>${row.entity}</td><td>${row.interArrival || '0.0'}</td></tr>`;
+                });
+                htmlTable += '</table>';
+                downloadExcel(htmlTable, `abbey_road_WB_Vehicles_${timestamp}`);
+                filesExported.push('WB Vehicles');
+                await delay(300);
+            }
+
+            // 4. Export Crossers table (exactly as shown in Crossers tab)
+            const crosserData = allData.filter(e => e.entity === 'Crossers');
+            if (crosserData.length > 0) {
+                let htmlTable = '<table border="1">';
+                htmlTable += '<tr style="background-color:#C8102E;color:white;"><th>ID</th><th>Time (s)</th><th>Entity</th><th>Service Time (s)</th><th>Inter-Arrival (s)</th></tr>';
+                crosserData.forEach(row => {
+                    htmlTable += `<tr><td>${row.id}</td><td>${row.timestamp}</td><td>${row.entity}</td><td>${row.serviceTime || '0.0'}</td><td>${row.interArrival || '0.0'}</td></tr>`;
+                });
+                htmlTable += '</table>';
+                downloadExcel(htmlTable, `abbey_road_Crossers_${timestamp}`);
+                filesExported.push('Crossers');
+                await delay(300);
+            }
+
+            // 5. Export Posers table (exactly as shown in Posers tab)
+            const poserData = allData.filter(e => e.entity === 'Posers');
+            if (poserData.length > 0) {
+                let htmlTable = '<table border="1">';
+                htmlTable += '<tr style="background-color:#C8102E;color:white;"><th>ID</th><th>Time (s)</th><th>Entity</th><th>Service Time (s)</th><th>Inter-Arrival (s)</th></tr>';
+                poserData.forEach(row => {
+                    htmlTable += `<tr><td>${row.id}</td><td>${row.timestamp}</td><td>${row.entity}</td><td>${row.serviceTime || '0.0'}</td><td>${row.interArrival || '0.0'}</td></tr>`;
+                });
+                htmlTable += '</table>';
+                downloadExcel(htmlTable, `abbey_road_Posers_${timestamp}`);
+                filesExported.push('Posers');
+            }
+
+            if (filesExported.length > 0) {
+                alert(`Exported ${filesExported.length} Excel files:\n${filesExported.join(', ')}`);
+            } else {
+                alert('No data to export!');
+            }
+        }
+        
+        function downloadExcel(htmlTable, filename) {
+            // Create complete Excel-compatible HTML document
+            const excelContent = `
+                <html xmlns:o="urn:schemas-microsoft-com:office:office" 
+                      xmlns:x="urn:schemas-microsoft-com:office:excel" 
+                      xmlns="http://www.w3.org/TR/REC-html40">
+                <head>
+                    <meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8">
+                    <meta charset="utf-8">
+                    <!--[if gte mso 9]>
+                    <xml>
+                        <x:ExcelWorkbook>
+                            <x:ExcelWorksheets>
+                                <x:ExcelWorksheet>
+                                    <x:Name>${filename}</x:Name>
+                                    <x:WorksheetOptions>
+                                        <x:DisplayGridlines/>
+                                    </x:WorksheetOptions>
+                                </x:ExcelWorksheet>
+                            </x:ExcelWorksheets>
+                        </x:ExcelWorkbook>
+                    </xml>
+                    <![endif]-->
+                    <style>
+                        table { border-collapse: collapse; width: 100%; }
+                        th { background-color: #C8102E; color: white; font-weight: bold; padding: 8px; border: 1px solid black; }
+                        td { padding: 8px; border: 1px solid black; }
+                        tr:nth-child(even) { background-color: #f2f2f2; }
+                    </style>
+                </head>
+                <body>
+                    ${htmlTable}
+                </body>
+                </html>`;
+            
+            // Create and download blob
+            const blob = new Blob([excelContent], {
+                type: 'application/vnd.ms-excel;charset=utf-8'
+            });
+            
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.href = url;
+            link.download = `${filename}.xls`;
+            link.style.display = 'none';
+            
+            document.body.appendChild(link);
+            link.click();
+            
+            // Cleanup after delay to ensure download completes
+            setTimeout(() => {
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }, 200);
+        }
+
+        function exportSingleTable(tableType, format) {
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+            let data, filename, headers, getRowData;
+
+            // Helper function to properly format CSV field
+            const csvField = (value) => {
+                const str = String(value);
+                // Quote if contains comma, space, quote, or newline
+                if (str.includes(',') || str.includes(' ') || str.includes('"') || str.includes('\n')) {
+                    return `"${str.replace(/"/g, '""')}"`;
+                }
+                return str;
+            };
+
+            // Define data and headers for each table type
+            switch(tableType) {
+                case 'all':
+                    data = allData;
+                    filename = `abbey_road_ALL_DATA_${timestamp}`;
+                    headers = ['ID', 'Time (s)', 'Entity', 'Type/Dir', 'Inter-Arrival (s)', 'Service Time (s)'];
+                    getRowData = row => [row.id, row.timestamp, row.entity, row.type, row.interArrival || '0.0', row.serviceTime || '-'];
+                    break;
+                case 'eb':
+                    data = allData.filter(e => e.entity === 'EB Vehicles');
+                    filename = `abbey_road_EB_Vehicles_${timestamp}`;
+                    headers = ['ID', 'Time (s)', 'Entity', 'Inter-Arrival (s)'];
+                    getRowData = row => [row.id, row.timestamp, row.entity, row.interArrival || '0.0'];
+                    break;
+                case 'wb':
+                    data = allData.filter(e => e.entity === 'WB Vehicles');
+                    filename = `abbey_road_WB_Vehicles_${timestamp}`;
+                    headers = ['ID', 'Time (s)', 'Entity', 'Inter-Arrival (s)'];
+                    getRowData = row => [row.id, row.timestamp, row.entity, row.interArrival || '0.0'];
+                    break;
+                case 'crossers':
+                    data = allData.filter(e => e.entity === 'Crossers');
+                    filename = `abbey_road_Crossers_${timestamp}`;
+                    headers = ['ID', 'Time (s)', 'Entity', 'Service Time (s)', 'Inter-Arrival (s)'];
+                    getRowData = row => [row.id, row.timestamp, row.entity, row.serviceTime || '0.0', row.interArrival || '0.0'];
+                    break;
+                case 'posers':
+                    data = allData.filter(e => e.entity === 'Posers');
+                    filename = `abbey_road_Posers_${timestamp}`;
+                    headers = ['ID', 'Time (s)', 'Entity', 'Service Time (s)', 'Inter-Arrival (s)'];
+                    getRowData = row => [row.id, row.timestamp, row.entity, row.serviceTime || '0.0', row.interArrival || '0.0'];
+                    break;
+            }
+
+            if (!data || data.length === 0) {
+                alert('No data to export!');
+                return;
+            }
+
+            if (format === 'csv') {
+                // Export as CSV with proper formatting
+                let csv = headers.map(h => csvField(h)).join(',') + '\n';
+                data.forEach(row => {
+                    const rowData = getRowData(row);
+                    csv += rowData.map(v => csvField(v)).join(',') + '\n';
+                });
+                downloadCSV(csv, filename);
+                alert(`Exported ${filename}.csv`);
+            } else if (format === 'excel') {
+                // Export as Excel
+                let htmlTable = '<table border="1">';
+                htmlTable += '<tr style="background-color:#C8102E;color:white;">';
+                headers.forEach(h => {
+                    htmlTable += `<th>${h}</th>`;
+                });
+                htmlTable += '</tr>';
+
+                data.forEach(row => {
+                    const rowData = getRowData(row);
+                    htmlTable += '<tr>';
+                    rowData.forEach(v => {
+                        htmlTable += `<td>${v}</td>`;
+                    });
+                    htmlTable += '</tr>';
+                });
+                htmlTable += '</table>';
+
+                downloadExcel(htmlTable, filename);
+                alert(`Exported ${filename}.xls`);
+            }
+        }
+
+        function formatTime(seconds) {
+            if (!seconds || isNaN(seconds)) return '00:00:00';
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = Math.floor(seconds % 60);
+            return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        }
+
+        function toggleHelp() {
+            const helpContent = document.getElementById('helpContent');
+            const helpArrow = document.getElementById('helpArrow');
+
+            if (helpContent.classList.contains('active')) {
+                helpContent.classList.remove('active');
+                helpArrow.textContent = '▼';
+            } else {
+                helpContent.classList.add('active');
+                helpArrow.textContent = '▲';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+ID,Time (s),Entity,Type/Dir,Inter-Arrival (s),Service Time (s)
+1,7.1,EB Vehicles,EB,0.0,-
+2,9.8,EB Vehicles,EB,2.6,-
+3,12.3,EB Vehicles,EB,2.5,-
+4,15.2,Crossers,Crosser,0.0,-
+5,16.2,EB Vehicles,EB,3.9,-
+6,16.3,EB Vehicles,EB,0.1,-
+7,21.9,EB Vehicles,EB,5.6,-
+8,27.3,EB Vehicles,EB,5.4,-
