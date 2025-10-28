@@ -2,9 +2,16 @@
 
 # Large video files (too large for GitHub)
 *.mkv
-*.mp4
 *.avi
 *.mov
+
+# Unblurred video files (privacy protection)
+test_30sec.mp4
+test_30sec_web.mp4
+*_unblurred.mp4
+
+# Allow blurred video for demo
+!test_30sec_blurred.mp4
 
 # YOLO model (will auto-download on first run)
 yolov8*.pt
@@ -72,3 +79,12 @@ tmp/
 
 # Keep example output for reference
 !test_results_30sec.csv
+
+# Local-only documentation
+PROJECT_DECISION.md
+ML_LOGIC_EXPLAINED.md
+DEMO_FILES_FOR_GIT.md
+
+# Temporary/replaced scripts
+convert_video.py
+extract_frames.py
