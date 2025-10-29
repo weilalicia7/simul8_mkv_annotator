@@ -650,7 +650,6 @@
                 <li><strong>Edit Button:</strong> Click to modify timestamps or entity types</li>
                 <li><strong>Delete Button:</strong> Click to remove incorrect entries</li>
                 <li><strong>Undo Last (↩️):</strong> Quick removal of most recent entry</li>
-                <li><strong>Delete Mode:</strong> Toggle ON to delete multiple entries quickly</li>
             </ul>
 
             <h3>🎯 Key Point</h3>
@@ -760,11 +759,8 @@
                 <button id="btn-poser" class="ped-btn" onclick="markPedEnd('Poser')">
                     📸 Poser End <span class="key-indicator">L</span>
                 </button>
-                <button class="action-btn" onclick="undoLast()">
-                    ↩️ Undo Last
-                </button>
-                <button class="delete-btn" onclick="toggleDeleteMode()" style="grid-column: span 2;">
-                    🗑️ Delete Mode: <span id="deleteModeStatus">OFF</span>
+                <button class="action-btn" onclick="undoLast()" style="grid-column: span 2;">
+                    ↩️ Undo Last Entry
                 </button>
             </div>
             
@@ -986,7 +982,6 @@
         let lastPedTime = 0;
         let pedStartTime = null;
         let pedTimerInterval = null;
-        let deleteMode = false;
         const video = document.getElementById('video');
         
         // Statistics
@@ -1290,17 +1285,6 @@
                 }
 
                 updateDisplay();
-            }
-        }
-        
-        function toggleDeleteMode() {
-            deleteMode = !deleteMode;
-            document.getElementById('deleteModeStatus').textContent = deleteMode ? 'ON' : 'OFF';
-            const btn = document.querySelector('.delete-btn');
-            if (deleteMode) {
-                btn.classList.add('delete-active');
-            } else {
-                btn.classList.remove('delete-active');
             }
         }
         
