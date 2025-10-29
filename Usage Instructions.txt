@@ -1,0 +1,73 @@
+  Usage Instructions 
+
+  Step 1: Get the Code from GitHub
+
+  Option A: Using Git (if he has it)
+  git clone https://github.com/weilalicia7/simul8_mkv_annotator.git
+  cd simul8_mkv_annotator
+
+
+  Step 2: Place Video in the Folder
+
+  Move or copy his video file into the downloaded folder:
+  simul8_mkv_annotator/
+  ├── ml_processor.py
+  ├── requirements.txt
+  ├── ...other files...
+  └── 2025-10-20 08-50-33.mkv  ← Put video here
+
+  Important: The video should be in the same folder as the Python scripts.
+
+  
+  Step 3: Install Python Packages
+
+  Open Command Prompt in that folder:
+  # Navigate to folder
+  cd C:\Users\[name]\Desktop\simul8_mkv_annotator
+
+  # Install GPU-enabled PyTorch first
+  pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+
+  # Install other packages
+  pip install -r requirements.txt
+
+  This takes 10-15 minutes (one-time setup)
+
+  
+  
+  Step 4: Verify GPU is Working
+
+  python -c "import torch; print('GPU Available:', torch.cuda.is_available());
+  print('GPU Name:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else
+  'None')"
+
+  Should print:
+  GPU Available: True
+  GPU Name: NVIDIA GeForce RTX 4060
+
+  
+
+  Step 5: Process the Video
+
+  Run this command:
+  python -u ml_processor.py "2025-10-20 08-50-33.mkv" --output results.csv
+
+  What u'll see:
+  Loading YOLO model...
+  Video loaded: 1280x720 @ 60.0 FPS
+  Total frames: 1,499,704
+  Arrival line at Y=360
+
+  Starting video processing...
+
+  Progress: 5.0% (74985/1499704 frames) - Detected: 45 arrivals
+  Progress: 10.0% (149970/1499704 frames) - Detected: 98 arrivals
+  Progress: 15.0% (224955/1499704 frames) - Detected: 152 arrivals
+  ...
+
+  Expected time: 4-8 hours (can run overnight)
+
+  Step 6: Check the Results
+
+  After processing completes, u'll have:
+  - results.csv - This is what we need!
