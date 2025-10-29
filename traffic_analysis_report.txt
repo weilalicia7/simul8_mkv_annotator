@@ -1,0 +1,37 @@
+================================================================================
+TRAFFIC ANALYSIS REPORT
+Generated: 2025-10-29 21:37:59
+================================================================================
+
+TIME ANALYSIS
+--------------------------------------------------------------------------------
+Total Arrivals: 758
+Simulation Duration: 5360.1 seconds
+Throughput: 509.09 entities/hour
+
+Average Wait Times:
+  Vehicles: 10.59 seconds
+  Pedestrians: 41.63 seconds
+
+System Utilization: 44.54%
+Peak Period Utilization: 0.00%
+
+COST ANALYSIS (Daily)
+--------------------------------------------------------------------------------
+Infrastructure: £5.21
+Operational: £125.00
+Time Value: £716.57
+Congestion: £803.45
+Environmental: £150.97
+================================================================================
+TOTAL DAILY COST: £1801.20
+TOTAL ANNUAL COST: £657,437.33
+
+ANALYSIS BY ENTITY TYPE
+--------------------------------------------------------------------------------
+     Entity  Count  Avg_Inter_Arrival  Std_Inter_Arrival  Avg_Service_Time  Max_Service_Time
+WB Vehicles    506          10.591107          13.660787               NaN               NaN
+   Crossers    102          51.732353          54.647749          7.243137              46.5
+     Posers    150          34.768000          67.997553         10.991333              50.6
+
+================================================================================
