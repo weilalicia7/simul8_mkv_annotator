@@ -1,31 +1,31 @@
 {
   "time_metrics": {
-    "avg_vehicle_wait_time": 10.59110671936759,
+    "avg_vehicle_wait_time": 13.09269183922046,
     "avg_pedestrian_wait_time": 41.634523809523806,
     "max_queue_time": 789.1,
     "min_inter_arrival": 0.0,
     "max_inter_arrival": 789.1,
-    "total_arrivals": 758,
-    "simulation_duration": 5360.1,
-    "throughput_per_hour": 509.09497957127667,
-    "system_utilization": 0.44542079438816434,
+    "total_arrivals": 1073,
+    "simulation_duration": 5390.0,
+    "throughput_per_hour": 716.6604823747681,
+    "system_utilization": 0.4429499072356216,
     "peak_period_utilization": 0.0,
-    "avg_service_time": 9.47420634920635,
+    "avg_service_time": 9.474206349206352,
     "max_service_time": 50.6
   },
   "cost_metrics": {
     "infrastructure_cost_per_day": 5.205479452054795,
     "operational_cost_per_day": 125.0,
-    "time_value_cost_per_day": 716.5663808976656,
-    "congestion_cost_per_day": 803.4536967593889,
-    "environmental_cost_per_day": 150.9726192501423,
-    "total_cost_per_day": 1801.1981763592514,
+    "time_value_cost_per_day": 1134.2161261040283,
+    "congestion_cost_per_day": 1131.0335732838591,
+    "environmental_cost_per_day": 262.7244157742379,
+    "total_cost_per_day": 2658.17959461418,
     "annual_infrastructure": 1900.0000000000002,
     "annual_operational": 45625.0,
-    "annual_time_value": 261546.72902764793,
-    "annual_congestion": 293260.59931717697,
-    "annual_environmental": 55105.00602630193,
-    "annual_total": 657437.3343711267
+    "annual_time_value": 413988.8860279703,
+    "annual_congestion": 412827.2542486086,
+    "annual_environmental": 95894.41175759684,
+    "annual_total": 970235.5520341757
   },
-  "analysis_date": "2025-10-29T21:37:59.075617"
+  "analysis_date": "2025-10-31T15:33:48.674194"
 }

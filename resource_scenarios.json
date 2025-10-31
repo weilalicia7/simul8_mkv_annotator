@@ -1,0 +1,186 @@
+{
+  "All_Crossers": [
+    {
+      "name": "Minimum Cost",
+      "description": "Absolute minimum capacity (high risk)",
+      "capacity": 1,
+      "utilization": 1.1598157939621354,
+      "avg_wait": 999,
+      "queue_length": 99,
+      "daily_cost": Infinity,
+      "annual_cost": Infinity,
+      "performance_score": 0
+    },
+    {
+      "name": "Conservative",
+      "description": "85% target utilization (moderate risk)",
+      "capacity": 1,
+      "utilization": 1.1598157939621354,
+      "avg_wait": 999,
+      "queue_length": 99,
+      "daily_cost": Infinity,
+      "annual_cost": Infinity,
+      "performance_score": 0
+    },
+    {
+      "name": "Optimal",
+      "description": "75% target utilization (balanced)",
+      "capacity": 1,
+      "utilization": 1.1598157939621354,
+      "avg_wait": 999,
+      "queue_length": 99,
+      "daily_cost": Infinity,
+      "annual_cost": Infinity,
+      "performance_score": 0
+    },
+    {
+      "name": "Safe",
+      "description": "65% target utilization (low risk)",
+      "capacity": 1,
+      "utilization": 1.1598157939621354,
+      "avg_wait": 999,
+      "queue_length": 99,
+      "daily_cost": Infinity,
+      "annual_cost": Infinity,
+      "performance_score": 0
+    }
+  ],
+  "All_EB Vehicles": [
+    {
+      "name": "Minimum Cost",
+      "description": "Absolute minimum capacity (high risk)",
+      "capacity": 4,
+      "utilization": 0.8766233766233766,
+      "avg_wait": 7.123318043847673,
+      "queue_length": 0.41629780775733155,
+      "daily_cost": 80.91464104046884,
+      "annual_cost": 29533.843979771125,
+      "performance_score": 83.82238550497783
+    },
+    {
+      "name": "Conservative",
+      "description": "85% target utilization (moderate risk)",
+      "capacity": 4,
+      "utilization": 0.8766233766233766,
+      "avg_wait": 7.123318043847673,
+      "queue_length": 0.41629780775733155,
+      "daily_cost": 80.91464104046884,
+      "annual_cost": 29533.843979771125,
+      "performance_score": 83.82238550497783
+    },
+    {
+      "name": "Optimal",
+      "description": "75% target utilization (balanced)",
+      "capacity": 5,
+      "utilization": 0.7012987012987013,
+      "avg_wait": 4.558923548062511,
+      "queue_length": 0.2664305969646922,
+      "daily_cost": 70.67030177274937,
+      "annual_cost": 25794.66014705352,
+      "performance_score": 97.62777384749009
+    },
+    {
+      "name": "Safe",
+      "description": "65% target utilization (low risk)",
+      "capacity": 5,
+      "utilization": 0.7012987012987013,
+      "avg_wait": 4.558923548062511,
+      "queue_length": 0.2664305969646922,
+      "daily_cost": 70.67030177274937,
+      "annual_cost": 25794.66014705352,
+      "performance_score": 97.62777384749009
+    }
+  ],
+  "All_Posers": [
+    {
+      "name": "Minimum Cost",
+      "description": "Absolute minimum capacity (high risk)",
+      "capacity": 1,
+      "utilization": 1.7257248044178553,
+      "avg_wait": 999,
+      "queue_length": 99,
+      "daily_cost": Infinity,
+      "annual_cost": Infinity,
+      "performance_score": 0
+    },
+    {
+      "name": "Conservative",
+      "description": "85% target utilization (moderate risk)",
+      "capacity": 1,
+      "utilization": 1.7257248044178553,
+      "avg_wait": 999,
+      "queue_length": 99,
+      "daily_cost": Infinity,
+      "annual_cost": Infinity,
+      "performance_score": 0
+    },
+    {
+      "name": "Optimal",
+      "description": "75% target utilization (balanced)",
+      "capacity": 2,
+      "utilization": 0.8628624022089276,
+      "avg_wait": 3.9009813634666584,
+      "queue_length": 0.11220033834176997,
+      "daily_cost": 28.943492655806917,
+      "annual_cost": 10564.374819369525,
+      "performance_score": 86.41648058905756
+    },
+    {
+      "name": "Safe",
+      "description": "65% target utilization (low risk)",
+      "capacity": 2,
+      "utilization": 0.8628624022089276,
+      "avg_wait": 3.9009813634666584,
+      "queue_length": 0.11220033834176997,
+      "daily_cost": 28.943492655806917,
+      "annual_cost": 10564.374819369525,
+      "performance_score": 86.41648058905756
+    }
+  ],
+  "All_WB Vehicles": [
+    {
+      "name": "Minimum Cost",
+      "description": "Absolute minimum capacity (high risk)",
+      "capacity": 6,
+      "utilization": 0.9441883898415778,
+      "avg_wait": 5.899634242102193,
+      "queue_length": 0.5570366155704708,
+      "daily_cost": 113.28275003284004,
+      "annual_cost": 41348.20376198662,
+      "performance_score": 79.6081550331219
+    },
+    {
+      "name": "Conservative",
+      "description": "85% target utilization (moderate risk)",
+      "capacity": 6,
+      "utilization": 0.9441883898415778,
+      "avg_wait": 5.899634242102193,
+      "queue_length": 0.5570366155704708,
+      "daily_cost": 113.28275003284004,
+      "annual_cost": 41348.20376198662,
+      "performance_score": 79.6081550331219
+    },
+    {
+      "name": "Optimal",
+      "description": "75% target utilization (balanced)",
+      "capacity": 7,
+      "utilization": 0.8093043341499239,
+      "avg_wait": 4.334425157462835,
+      "queue_length": 0.4092513910313662,
+      "daily_cost": 103.28824911554476,
+      "annual_cost": 37700.21092717384,
+      "performance_score": 90.0253349819883
+    },
+    {
+      "name": "Safe",
+      "description": "65% target utilization (low risk)",
+      "capacity": 8,
+      "utilization": 0.7081412923811834,
+      "avg_wait": 3.3185442611824834,
+      "queue_length": 0.3133330962583898,
+      "daily_cost": 99.51777977018486,
+      "annual_cost": 36323.98961611748,
+      "performance_score": 97.7592069850385
+    }
+  ]
+}

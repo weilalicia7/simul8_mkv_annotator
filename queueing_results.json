@@ -1,0 +1,50 @@
+{
+  "All_Crossers": {
+    "period": "All",
+    "entity": "Crossers",
+    "arrival_rate": 69.58894763772813,
+    "utilization": 0.5799078969810677,
+    "avg_wait_queue": 22.676736395107437,
+    "avg_time_system": 52.67673639510744,
+    "avg_num_queue": 0.4383472837760264,
+    "min_servers": 1,
+    "optimal_servers": 1,
+    "performance_class": "EXCELLENT - Low congestion"
+  },
+  "All_EB Vehicles": {
+    "period": "All",
+    "entity": "EB Vehicles",
+    "arrival_rate": 210.3896103896104,
+    "utilization": 0.7012987012987013,
+    "avg_wait_queue": 4.558923548062511,
+    "avg_time_system": 64.55892354806251,
+    "avg_num_queue": 0.2664305969646922,
+    "min_servers": 4,
+    "optimal_servers": 5,
+    "performance_class": "EXCELLENT - Low congestion"
+  },
+  "All_Posers": {
+    "period": "All",
+    "entity": "Posers",
+    "arrival_rate": 103.54348826507132,
+    "utilization": 0.4314312011044638,
+    "avg_wait_queue": 3.9009813634666584,
+    "avg_time_system": 33.900981363466656,
+    "avg_num_queue": 0.11220033834176997,
+    "min_servers": 1,
+    "optimal_servers": 2,
+    "performance_class": "EXCELLENT - Low congestion"
+  },
+  "All_WB Vehicles": {
+    "period": "All",
+    "entity": "WB Vehicles",
+    "arrival_rate": 339.907820342968,
+    "utilization": 0.8093043341499239,
+    "avg_wait_queue": 4.334425157462835,
+    "avg_time_system": 64.33442515746283,
+    "avg_num_queue": 0.4092513910313662,
+    "min_servers": 6,
+    "optimal_servers": 7,
+    "performance_class": "ACCEPTABLE - Moderate congestion"
+  }
+}

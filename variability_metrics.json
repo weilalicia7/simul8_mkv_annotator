@@ -1,0 +1,58 @@
+{
+  "All_Crossers": {
+    "entity_type": "Crossers",
+    "period_type": "All",
+    "total_arrivals": 102,
+    "mean_arrival_rate": 69.58894763772813,
+    "mean_inter_arrival": 52.24455445544555,
+    "std_inter_arrival": 54.67369472652737,
+    "cv_inter_arrival": 1.0464955687037854,
+    "mean_service_time": 0,
+    "std_service_time": 0,
+    "cv_service_time": 0,
+    "variability_class": "Medium (Random arrivals)",
+    "best_fit_distribution": "Gamma"
+  },
+  "All_EB Vehicles": {
+    "entity_type": "EB Vehicles",
+    "period_type": "All",
+    "total_arrivals": 315,
+    "mean_arrival_rate": 210.3896103896104,
+    "mean_inter_arrival": 17.1656050955414,
+    "std_inter_arrival": 21.96645631382818,
+    "cv_inter_arrival": 1.2796785310838679,
+    "mean_service_time": 0,
+    "std_service_time": 0,
+    "cv_service_time": 0,
+    "variability_class": "High (Bursty arrivals)",
+    "best_fit_distribution": "Lognormal"
+  },
+  "All_Posers": {
+    "entity_type": "Posers",
+    "period_type": "All",
+    "total_arrivals": 150,
+    "mean_arrival_rate": 103.54348826507132,
+    "mean_inter_arrival": 35.0013422818792,
+    "std_inter_arrival": 68.16660233473416,
+    "cv_inter_arrival": 1.9475425195343208,
+    "mean_service_time": 0,
+    "std_service_time": 0,
+    "cv_service_time": 0,
+    "variability_class": "High (Bursty arrivals)",
+    "best_fit_distribution": "Lognormal"
+  },
+  "All_WB Vehicles": {
+    "entity_type": "WB Vehicles",
+    "period_type": "All",
+    "total_arrivals": 506,
+    "mean_arrival_rate": 339.907820342968,
+    "mean_inter_arrival": 10.612079207920793,
+    "std_inter_arrival": 13.666175682007442,
+    "cv_inter_arrival": 1.2877943534201186,
+    "mean_service_time": 0,
+    "std_service_time": 0,
+    "cv_service_time": 0,
+    "variability_class": "High (Bursty arrivals)",
+    "best_fit_distribution": "Lognormal"
+  }
+}

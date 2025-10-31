@@ -474,7 +474,7 @@ class TrafficQueueingAnalyzer:
                 'performance_class': results.performance_class
             }
 
-        with open(filename, 'w') as f:
+        with open(filename, 'w', encoding='utf-8') as f:
             json.dump(export_data, f, indent=2)
 
         print(f"Results exported to {filename}")
@@ -500,6 +500,17 @@ def main():
         data = pd.read_csv(input_file)
         print(f"Loaded {len(data)} records")
 
+        # Map column names to standard format
+        column_mapping = {
+            'Time (s)': 'Arrival_Time',
+            'Entity': 'Entity_Type',
+            'Inter-Arrival (s)': 'Inter_Arrival_Time',
+            'Service Time (s)': 'Service_Time'
+        }
+        for old_col, new_col in column_mapping.items():
+            if old_col in data.columns:
+                data = data.rename(columns={old_col: new_col})
+
         # Load variability metrics if available
         try:
             with open('variability_metrics.json', 'r') as f:
@@ -521,7 +532,7 @@ def main():
         report = analyzer.generate_report()
 
         # Save report
-        with open('queueing_analysis_report.txt', 'w') as f:
+        with open('queueing_analysis_report.txt', 'w', encoding='utf-8') as f:
             f.write(report)
         print("Report saved to queueing_analysis_report.txt")
 

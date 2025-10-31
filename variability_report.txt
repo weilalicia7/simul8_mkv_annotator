@@ -1,0 +1,94 @@
+================================================================================
+TRAFFIC VARIABILITY ANALYSIS REPORT
+================================================================================
+
+
+================================================================================
+GROUP: All - Crossers
+================================================================================
+
+ARRIVAL PATTERN:
+  Total Arrivals: 102
+  Mean Arrival Rate: 69.59 entities/hour
+  Mean Inter-Arrival Time: 52.24 seconds
+  Std Dev Inter-Arrival: 54.67 seconds
+  Coefficient of Variation (CV): 1.046
+  Variability Classification: Medium (Random arrivals)
+  Best Fit Distribution: Gamma
+
+QUEUEING THEORY IMPLICATIONS:
+  - Moderate variability: Use standard queueing formulas
+  - Recommended max utilization: 75%
+
+
+================================================================================
+GROUP: All - EB Vehicles
+================================================================================
+
+ARRIVAL PATTERN:
+  Total Arrivals: 315
+  Mean Arrival Rate: 210.39 entities/hour
+  Mean Inter-Arrival Time: 17.17 seconds
+  Std Dev Inter-Arrival: 21.97 seconds
+  Coefficient of Variation (CV): 1.280
+  Variability Classification: High (Bursty arrivals)
+  Best Fit Distribution: Lognormal
+
+QUEUEING THEORY IMPLICATIONS:
+  - High variability: Requires significant capacity buffer
+  - Recommended max utilization: 65%
+  - Consider: Capacity increase of 14%
+
+
+================================================================================
+GROUP: All - Posers
+================================================================================
+
+ARRIVAL PATTERN:
+  Total Arrivals: 150
+  Mean Arrival Rate: 103.54 entities/hour
+  Mean Inter-Arrival Time: 35.00 seconds
+  Std Dev Inter-Arrival: 68.17 seconds
+  Coefficient of Variation (CV): 1.948
+  Variability Classification: High (Bursty arrivals)
+  Best Fit Distribution: Lognormal
+
+QUEUEING THEORY IMPLICATIONS:
+  - High variability: Requires significant capacity buffer
+  - Recommended max utilization: 65%
+  - Consider: Capacity increase of 47%
+
+
+================================================================================
+GROUP: All - WB Vehicles
+================================================================================
+
+ARRIVAL PATTERN:
+  Total Arrivals: 506
+  Mean Arrival Rate: 339.91 entities/hour
+  Mean Inter-Arrival Time: 10.61 seconds
+  Std Dev Inter-Arrival: 13.67 seconds
+  Coefficient of Variation (CV): 1.288
+  Variability Classification: High (Bursty arrivals)
+  Best Fit Distribution: Lognormal
+
+QUEUEING THEORY IMPLICATIONS:
+  - High variability: Requires significant capacity buffer
+  - Recommended max utilization: 65%
+  - Consider: Capacity increase of 14%
+
+
+================================================================================
+SUMMARY RECOMMENDATIONS
+================================================================================
+
+HIGH VARIABILITY PERIODS DETECTED:
+  - All / EB Vehicles: CV = 1.280
+  - All / Posers: CV = 1.948
+  - All / WB Vehicles: CV = 1.288
+
+ACTIONS:
+  1. Size resources for peak + variability buffer
+  2. Use empirical distributions in SIMUL8 (not theoretical)
+  3. Run longer simulation replications to capture variability
+  4. Consider adaptive/dynamic resource allocation

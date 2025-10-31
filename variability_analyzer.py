@@ -338,6 +338,20 @@ class DataLoader:
         print(f"Loaded {len(df)} records")
         print(f"Columns: {', '.join(df.columns)}")
 
+        # Map column names to standard format
+        column_mapping = {
+            'Time (s)': 'Arrival_Time',
+            'Entity': 'Entity_Type',
+            'Inter-Arrival (s)': 'Inter_Arrival_Time',
+            'Service Time (s)': 'Service_Time'
+        }
+
+        # Apply mapping for columns that exist
+        for old_col, new_col in column_mapping.items():
+            if old_col in df.columns:
+                df = df.rename(columns={old_col: new_col})
+                print(f"  Mapped '{old_col}' to '{new_col}'")
+
         # Ensure required columns exist
         required_cols = ['Arrival_Time', 'Entity_Type']
         missing = [col for col in required_cols if col not in df.columns]
