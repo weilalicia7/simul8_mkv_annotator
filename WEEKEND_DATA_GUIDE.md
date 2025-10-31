@@ -2,7 +2,9 @@
 
 ## Current Data Status (as of Oct 31, 2025)
 
-### Existing Session (Already Processed)
+### Session 1: Weekday Morning (Already Processed)
+- **Day Type**: Weekday
+- **Time Range**: 10:00 AM - 11:30 AM
 - **Duration**: 90 minutes (1.5 hours)
 - **Total Entities**: 1,073
   - EB Vehicles: 315
@@ -10,13 +12,26 @@
   - Crossers: 102
   - Posers: 150
 - **Throughput**: 717 entities/hour
+- **Characteristics**: Morning work activity period
 - **Video Source**: First 90 minutes of "2025-10-20 08-50-33.mkv"
+
+### Session 2: Weekend Midday (Pending)
+- **Day Type**: Weekend
+- **Time Range**: 10:20 AM - 1:00 PM
+- **Duration**: 160 minutes (2 hours 40 minutes)
+- **Expected Entities**: 2,150-2,370 (projected)
+  - EB Vehicles: ~600-650
+  - WB Vehicles: ~950-1,000
+  - Crossers: ~200-220
+  - Posers: ~400-500 (peak tourist time!)
+- **Characteristics**: Late morning through lunch period
+- **Overlap with Session 1**: 70 minutes (10:20-11:30 AM) for direct comparison
 
 ### Available Video
 - **File**: "2025-10-20 08-50-33.mkv"
-- **Duration**: 6.94 hours (weekend recording)
-- **Annotated**: Only first 90 minutes
-- **Remaining**: 6 hours available for annotation
+- **Duration**: 6.94 hours
+- **Annotated**: Session 1 only (first 90 minutes)
+- **Remaining**: 6 hours available for additional annotation
 
 ---
 
