@@ -2,13 +2,13 @@
 
 ## Session Details
 
-### Session 1: Weekday Morning (Current - Complete)
+### Session 1: Weekday Early Morning (Current - Complete)
 - **Day Type:** Weekday
-- **Time Range:** 10:00 AM - 11:30 AM
+- **Time Range:** 9:00 AM - 10:30 AM
 - **Duration:** 90 minutes (1.5 hours)
 - **Date:** October 20, 2025
 - **Total Entities:** 1,073
-- **Characteristics:** Morning activity period
+- **Characteristics:** Early morning commute/work period
 
 ### Session 2: Weekend Midday (Pending)
 - **Day Type:** Weekend
@@ -24,12 +24,13 @@
 
 ### 1. Time-of-Day Effects
 
-**Weekday 10:00-11:30 AM:**
-- Morning commute tail-end
-- Business/work traffic
-- Fewer tourists early
-- School/work schedules
-- Parking/shopping activities
+**Weekday 9:00-10:30 AM:**
+- Morning commute period
+- Work/school traffic dominates
+- Business deliveries
+- Fewer tourists (work hours)
+- Rush hour patterns
+- School run traffic
 
 **Weekend 10:20 AM-1:00 PM:**
 - Leisure traffic dominates
@@ -37,20 +38,23 @@
 - Lunch-time traffic (12:00-1:00 PM)
 - Shopping, entertainment
 - No commute patterns
+- Later start (sleep-in effect)
 
-**Overlap Period (10:20-11:30 AM):**
-- 70 minutes of comparable data
-- Direct weekday vs weekend comparison
-- Controls for time-of-day effects
+**Overlap Period (10:20-10:30 AM):**
+- Only 10 minutes of comparable data
+- Very small overlap
+- Mostly different time periods
+- Comparison is time-of-day + day-type combined
 
 ### 2. Expected Pattern Differences
 
-| Factor | Weekday (10:00-11:30) | Weekend (10:20-13:00) | Impact |
-|--------|----------------------|----------------------|---------|
-| **Vehicles** | Moderate, work-related | Higher, leisure-related | +20-30% |
-| **Posers** | Lower (work hours) | Much higher (tourists) | +50-100% |
-| **Crossers** | Moderate | Moderate-High | +10-20% |
-| **Peak Times** | 10:00-10:30 AM | 11:00 AM-12:00 PM | Shifted later |
+| Factor | Weekday (9:00-10:30) | Weekend (10:20-13:00) | Impact |
+|--------|---------------------|----------------------|---------|
+| **Vehicles** | High (commute) | Moderate-High (leisure) | +10-20% |
+| **Posers** | Very low (work hours) | Very high (tourists) | +200-300% |
+| **Crossers** | Moderate (commuters) | Higher (tourists/shoppers) | +30-50% |
+| **Peak Times** | 9:00-9:30 AM (rush) | 11:00 AM-12:00 PM | Different patterns |
+| **Commute Effect** | Yes (morning rush) | No (weekend) | Major difference |
 | **Lunch Effect** | Not captured | Yes (12:00-13:00) | New pattern |
 
 ---
@@ -105,22 +109,16 @@ features = [
 
 ## Comparison Strategies
 
-### Strategy 1: Overlapping Time Period (70 minutes)
+### Strategy 1: Minimal Overlap Analysis (10 minutes)
 
-**Compare 10:20-11:30 AM directly:**
-- Weekday: Minutes 20-90 of session
-- Weekend: Minutes 0-70 of session
-- **Controls for time-of-day**
-- Isolates day-type effect
+**Compare 10:20-10:30 AM directly:**
+- Weekday: Minutes 80-90 of session (end of commute)
+- Weekend: Minutes 0-10 of session (start of leisure)
+- **Very small sample (10 minutes)**
+- Limited statistical power
+- Snapshot comparison only
 
-**Expected findings:**
-```
-Entity          Weekday (10:20-11:30)    Weekend (10:20-11:30)    Difference
-EB Vehicles     ~220/hr                  ~240/hr                  +9%
-WB Vehicles     ~340/hr                  ~380/hr                  +12%
-Crossers        ~70/hr                   ~80/hr                   +14%
-Posers          ~100/hr                  ~200/hr                  +100% (tourist effect!)
-```
+**Note:** With only 10 minutes overlap, direct time-matched comparison has limited value. Focus on overall pattern differences instead.
 
 ### Strategy 2: Full Session Comparison
 
@@ -433,14 +431,14 @@ Weekend lunch period (12:00-1:00 PM) exhibited [findings], suggesting
 
 | Aspect | Details |
 |--------|---------|
-| **Weekday Session** | 10:00-11:30 AM (90 min) - Complete |
-| **Weekend Session** | 10:20-1:00 PM (160 min) - Pending |
-| **Overlap Period** | 10:20-11:30 AM (70 min) - Direct comparison |
-| **Unique Weekday** | 10:00-10:20 AM (20 min) |
-| **Unique Weekend** | 11:30-1:00 PM (90 min) - Includes lunch |
-| **Key Comparison** | Weekday vs Weekend at same time |
-| **Key Pattern** | Lunch hour effect (weekend only) |
-| **Expected Difference** | Posers +95%, Vehicles +10-20%, Lunch +20-30% |
+| **Weekday Session** | 9:00-10:30 AM (90 min) - Complete |
+| **Weekend Session** | 10:20 AM-1:00 PM (160 min) - Pending |
+| **Overlap Period** | 10:20-10:30 AM (10 min only!) - Very small |
+| **Unique Weekday** | 9:00-10:20 AM (80 min) - Morning commute |
+| **Unique Weekend** | 10:30 AM-1:00 PM (150 min) - Midday + lunch |
+| **Key Comparison** | Commute pattern vs Leisure/Tourist pattern |
+| **Key Patterns** | Rush hour (weekday) vs Tourist peak + Lunch (weekend) |
+| **Expected Difference** | Posers +200-300%, Vehicles +10-20%, Different peak times |
 
 ---
 

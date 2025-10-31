@@ -2,9 +2,9 @@
 
 ## Current Data Status (as of Oct 31, 2025)
 
-### Session 1: Weekday Morning (Already Processed)
+### Session 1: Weekday Morning Commute (Already Processed)
 - **Day Type**: Weekday
-- **Time Range**: 10:00 AM - 11:30 AM
+- **Time Range**: 9:00 AM - 10:30 AM
 - **Duration**: 90 minutes (1.5 hours)
 - **Total Entities**: 1,073
   - EB Vehicles: 315
@@ -12,7 +12,7 @@
   - Crossers: 102
   - Posers: 150
 - **Throughput**: 717 entities/hour
-- **Characteristics**: Morning work activity period
+- **Characteristics**: Morning commute/rush hour period
 - **Video Source**: First 90 minutes of "2025-10-20 08-50-33.mkv"
 
 ### Session 2: Weekend Midday (Pending)
@@ -24,8 +24,9 @@
   - WB Vehicles: ~950-1,000
   - Crossers: ~200-220
   - Posers: ~400-500 (peak tourist time!)
-- **Characteristics**: Late morning through lunch period
-- **Overlap with Session 1**: 70 minutes (10:20-11:30 AM) for direct comparison
+- **Characteristics**: Late morning through lunch period, leisure/tourist traffic
+- **Overlap with Session 1**: Only 10 minutes (10:20-10:30 AM) - minimal overlap
+- **Comparison Type**: Different time periods (commute vs leisure patterns)
 
 ### Available Video
 - **File**: "2025-10-20 08-50-33.mkv"
